@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KutOS 2.0 Masaüstü Simülasyonu</title>
+    <link rel="stylesheet" href="desktop.css">
+</head>
+<body>
+    
+    <div id="desktop">
+
+        <div class="desktop-icon" id="file-manager-icon" draggable="false">
+            <span class="icon-emoji">📁</span>
+            <span class="icon-label">Dosya Yöneticisi</span>
+        </div>
+        
+        <div class="desktop-icon" id="settings-icon-desktop" draggable="false">
+            <span class="icon-emoji">⚙️</span>
+            <span class="icon-label">Ayarlar</span>
+        </div>
+        
+        <div class="desktop-icon" id="browser-icon" draggable="false">
+            <span class="icon-emoji">🌐</span>
+            <span class="icon-label">Kut Browser</span>
+        </div>
+        
+        <div class="window" id="file-manager-window">
+            <div class="window-header">
+                <span class="window-title">📁 Dosya Yöneticisi</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content file-manager-content">
+                <h3 id="current-path">/</h3>
+                <div id="file-list">
+                    </div>
+            </div>
+        </div>
+
+        <div class="window" id="text-editor-window">
+            <div class="window-header">
+                <span class="window-title" id="text-editor-title">📄 Metin Editörü</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content text-editor-content">
+                <div class="editor-menu">
+                    <button id="editor-save-btn">💾 Kaydet</button>
+                    <button id="editor-clear-btn">✖️ Temizle</button>
+                </div>
+                <textarea id="editor-textarea" placeholder="Buraya yazabilirsiniz..."></textarea>
+            </div>
+        </div>
+
+        <div class="window" id="settings-window">
+            <div class="window-header">
+                <span class="window-title">⚙️ Ayarlar</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content settings-content">
+                <h3>KutOS Ayarları</h3>
+                <p>Tema: Koyu Mor (Aktif)</p>
+                <div class="setting-group">
+                    <h4>Arka Plan</h4>
+                    <button id="set-bg-default" class="settings-btn active-setting">Varsayılan Duvar Kağıdı</button>
+                    <button id="set-bg-solid" class="settings-btn">Düz Siyah Arka Plan</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="calculator-window">
+            <div class="window-header">
+                <span class="window-title">🧮 Hesap Makinesi</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content calculator-content">
+                <input type="text" id="calculator-display" value="0" disabled>
+                <div class="calculator-buttons">
+                    <button class="btn clear" data-action="clear">AC</button>
+                    <button class="btn operator" data-action="sign">±</button>
+                    <button class="btn operator" data-action="percent">%</button>
+                    <button class="btn operator op-color" data-action="divide">÷</button>
+
+                    <button class="btn number" data-value="7">7</button>
+                    <button class="btn number" data-value="8">8</button>
+                    <button class="btn number" data-value="9">9</button>
+                    <button class="btn operator op-color" data-action="multiply">x</button>
+
+                    <button class="btn number" data-value="4">4</button>
+                    <button class="btn number" data-value="5">5</button>
+                    <button class="btn number" data-value="6">6</button>
+                    <button class="btn operator op-color" data-action="subtract">-</button>
+
+                    <button class="btn number" data-value="1">1</button>
+                    <button class="btn number" data-value="2">2</button>
+                    <button class="btn number" data-value="3">3</button>
+                    <button class="btn operator op-color" data-action="add">+</button>
+
+                    <button class="btn number zero" data-value="0">0</button>
+                    <button class="btn number" data-value=".">.</button>
+                    <button class="btn equals op-color" data-action="calculate">=</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="security-window">
+            <div class="window-header">
+                <span class="window-title">🛡️ KutOS Güvenlik</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content security-content">
+                <h3>Sistem Güvenlik Durumu</h3>
+                <div id="security-status" style="padding: 10px; border: 1px solid #4CAF50; background-color: #e8f5e9; color: #4CAF50; margin-bottom: 15px; border-radius: 4px;">
+                    ✅ Sistem Güvenli: Her şey yolunda.
+                </div>
+                
+                <p>Son Tarama: Az önce</p>
+                <button id="start-scan-btn" class="settings-btn">Virüs Taraması Başlat</button>
+                
+                <div id="scan-result" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <div class="window" id="browser-window">
+            <div class="window-header">
+                <span class="window-title">🌐 Kut Browser</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">➖</button>
+                    <button class="maximize-btn">🗖</button>
+                    <button class="close-btn">❌</button>
+                </div>
+            </div>
+            <div class="window-content browser-content">
+                <iframe 
+                    id="browser-iframe" 
+                    src="https://www.google.com/webhp?igu=1" 
+                    frameborder="0"
+                ></iframe>
+            </div>
+        </div>
+        
+        <div id="context-menu" class="context-menu">
+            <div class="menu-item" id="menu-create-folder">📁 Yeni Klasör Oluştur</div>
+            <div class="menu-item" id="menu-create-file">📄 Yeni Metin Belgesi</div>
+            <div class="menu-item separator"></div>
+            <div class="menu-item" id="menu-refresh">🔄 Yenile</div>
+            <div class="menu-item separator"></div>
+            <div class="menu-item" id="menu-view-settings">⚙️ Görüntü Ayarları</div>
+        </div>
+        
+        <div id="folder-context-menu" class="context-menu">
+            <div class="menu-item" id="menu-open-folder">📂 Aç</div>
+            <div class="menu-item" id="menu-rename-item">✏️ Yeniden Adlandır</div>
+            <div class="menu-item separator"></div>
+            <div class="menu-item" id="menu-delete-folder">🗑️ Sil</div>
+        </div>
+        
+    </div>
+    
+    <div id="start-menu">
+        <div class="menu-header">KutOS 2.0</div>
+        <a href="#" class="menu-item" id="menu-file-manager">📁 Dosya Yöneticisi</a>
+        <a href="#" class="menu-item" id="menu-text-editor">📄 Metin Editörü</a>
+        <a href="#" class="menu-item" id="menu-settings">⚙️ Ayarlar</a>
+        <a href="#" class="menu-item" id="menu-calculator">🧮 Hesap Makinesi</a>
+        <a href="#" class="menu-item" id="menu-security">🛡️ KutOS Güvenlik</a>
+        <a href="#" class="menu-item" id="menu-browser">🌐 Kut Browser</a>
+        <a href="#" class="menu-item power-button" id="menu-power-off">🚪 Kapat</a>
+    </div>
+
+    <div id="taskbar">
+        
+        <div id="start-button">
+            <span class="logo-text">KutOS</span>
+        </div>
+        
+        <div id="running-apps">
+            <div class="taskbar-icon" id="file-manager-taskbar-icon">
+                📁
+            </div>
+            <div class="taskbar-icon" id="text-editor-taskbar-icon">
+                📄
+            </div>
+            <div class="taskbar-icon" id="settings-taskbar-icon">
+                ⚙️
+            </div>
+            <div class="taskbar-icon" id="calculator-taskbar-icon">
+                🧮
+            </div>
+            <div class="taskbar-icon" id="security-taskbar-icon">
+                🛡️
+            </div>
+            <div class="taskbar-icon" id="browser-taskbar-icon">
+                🌐
+            </div>
+        </div>
+        
+        <div id="system-tray">
+            <span id="time">11:25</span>
+            <span id="settings-icon">⚙️</span>
+        </div>
+    </div>
+    
+    <script>
+        
+        // --- 1. Başlat Menüsü ve Masaüstü Tıklama Kontrolü ---
+        const startButton = document.getElementById('start-button');
+        const startMenu = document.getElementById('start-menu');
+        const contextMenu = document.getElementById('context-menu');
+        const folderContextMenu = document.getElementById('folder-context-menu');
+        let activeFolderIcon = null; 
+        
+        startButton.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            startMenu.style.display = startMenu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#start-menu') && !e.target.closest('#start-button')) {
+                startMenu.style.display = 'none';
+            }
+            if (!e.target.closest('#context-menu')) {
+                contextMenu.style.display = 'none';
+            }
+            if (!e.target.closest('#folder-context-menu')) {
+                folderContextMenu.style.display = 'none';
+                activeFolderIcon = null;
+            }
+        });
+
+        // --- 2. Saat Güncelleme ---
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0'); 
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+        }
+        updateTime();
+        setInterval(updateTime, 60000); 
+        
+        // --- 3. Pencere Kontrol Fonksiyonları ---
+        function setupWindowControls(windowElement, taskbarIconElement) { 
+            const minimizeBtn = windowElement.querySelector('.minimize-btn');
+            const maximizeBtn = windowElement.querySelector('.maximize-btn');
+            const closeBtn = windowElement.querySelector('.close-btn');
+            
+            closeBtn.addEventListener('click', () => {
+                windowElement.style.display = 'none';
+                if(taskbarIconElement) taskbarIconElement.classList.remove('active');
+                
+                // Metin Editörünü kapatınca içeriğini temizle
+                if (windowElement.id === 'text-editor-window') {
+                    currentEditingFileId = null;
+                    editorTextarea.value = '';
+                    editorTextarea.disabled = false;
+                    editorTitle.textContent = `📄 Metin Editörü`;
+                    editorSaveBtn.style.display = 'inline-block';
+                }
+            });
+            
+            maximizeBtn.addEventListener('click', () => {
+                windowElement.classList.toggle('maximized');
+            });
+            
+            minimizeBtn.addEventListener('click', () => {
+                windowElement.style.display = 'none';
+                if(taskbarIconElement) {
+                    taskbarIconElement.classList.remove('active');
+                    taskbarIconElement.classList.add('minimized');
+                }
+            });
+
+            if (taskbarIconElement) {
+                taskbarIconElement.addEventListener('click', () => {
+                    if (windowElement.style.display === 'block') {
+                        windowElement.style.display = 'none';
+                        taskbarIconElement.classList.remove('active');
+                    } else {
+                        windowElement.style.display = 'block';
+                        windowElement.classList.remove('maximized');
+                        taskbarIconElement.classList.add('active');
+                        taskbarIconElement.classList.remove('minimized');
+                        bringToFront(windowElement);
+                    }
+                });
+            }
+        }
+        
+        // --- 4. Sürükleme Fonksiyonu (Pencereler İçin) ---
+        function makeDraggable(windowElement, headerElement) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            headerElement.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                if (windowElement.classList.contains('maximized')) return; 
+                
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+                bringToFront(windowElement); 
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                windowElement.style.top = (windowElement.offsetTop - pos2) + "px";
+                windowElement.style.left = (windowElement.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+        
+        // --- 4b. Masaüstü Simgeleri İçin Sürükleme Fonksiyonu ---
+        function makeIconDraggable(iconElement) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            iconElement.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault(); 
+                
+                iconElement.style.zIndex = '100'; 
+                
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                let newTop = (iconElement.offsetTop - pos2);
+                let newLeft = (iconElement.offsetLeft - pos1);
+                
+                // SINIR KONTROLÜ
+                const taskbarHeight = 40;
+                
+                if (newTop < 0) newTop = 0;
+                if (newTop > window.innerHeight - iconElement.offsetHeight - taskbarHeight) {
+                    newTop = window.innerHeight - iconElement.offsetHeight - taskbarHeight;
+                }
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > window.innerWidth - iconElement.offsetWidth) {
+                    newLeft = window.innerWidth - iconElement.offsetWidth;
+                }
+
+                iconElement.style.top = newTop + "px";
+                iconElement.style.left = newLeft + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                iconElement.style.zIndex = '1'; 
+                saveIconPosition(iconElement); 
+            }
+        }
+
+        // --- 5. Pencere Odağı (Focus) Yönetimi ---
+        let highestZIndex = 500; 
+
+        function bringToFront(windowElement) {
+            highestZIndex += 1;
+            windowElement.style.zIndex = highestZIndex;
+        }
+        
+        function setupWindowFocus(windowElement) {
+            windowElement.addEventListener('mousedown', () => {
+                bringToFront(windowElement);
+            });
+        }
+
+        // --- 6. Uygulama Başlatma Fonksiyonu ---
+        function openWindow(windowElement, taskbarIcon) {
+            windowElement.style.display = 'block';
+            if(taskbarIcon) {
+                taskbarIcon.classList.add('active');
+                taskbarIcon.classList.remove('minimized');
+            }
+            startMenu.style.display = 'none';
+            bringToFront(windowElement); 
+        }
+
+        // --- Ek Fonksiyon: Dinamik Masaüstü İkonu Oluşturma ---
+        const desktopArea = document.getElementById('desktop'); 
+        const fileManagerWindow = document.getElementById('file-manager-window');
+        const fileManagerTaskbarIcon = document.getElementById('file-manager-taskbar-icon');
+        const textEditorWindow = document.getElementById('text-editor-window'); 
+        const textEditorTaskbarIcon = document.getElementById('text-editor-taskbar-icon'); 
+
+
+        // type parametresi eklendi: 'dir' veya 'file'
+        function createDesktopIcon(name, id, type) { 
+            const newIcon = document.createElement('div');
+            newIcon.classList.add('desktop-icon');
+            newIcon.id = id;
+            newIcon.setAttribute('draggable', 'false'); 
+            
+            // İkon Emojisini türe göre belirle
+            let iconEmoji = (type === 'file') ? '📄' : '📁';
+
+            newIcon.innerHTML = `
+                <span class="icon-emoji">${iconEmoji}</span>
+                <span class="icon-label">${name}</span>
+            `;
+
+            desktopArea.appendChild(newIcon);
+            
+            // Çift tıklama olayını ekle
+            newIcon.addEventListener('dblclick', (e) => {
+                e.stopPropagation(); 
+                
+                if (type === 'dir') {
+                    // Klasörse Dosya Yöneticisini aç
+                    openWindow(fileManagerWindow, fileManagerTaskbarIcon);
+                    currentPath = '/' + name; 
+                    renderFiles(); 
+                } else if (type === 'file') {
+                    // Dosyaysa Metin Editörü ile aç
+                    openTextEditor(name);
+                }
+            });
+            
+            // Sağ Tık Olayı (Sadece dinamik klasör/dosyalar için)
+            if (type === 'dir' || type === 'file') { 
+                newIcon.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); 
+                    
+                    activeFolderIcon = newIcon; 
+                    folderContextMenu.style.display = 'block';
+                    folderContextMenu.style.left = `${e.clientX}px`;
+                    folderContextMenu.style.top = `${e.clientY}px`;
+                    contextMenu.style.display = 'none'; 
+                });
+            }
+            
+            makeIconDraggable(newIcon);
+            return newIcon; 
+        }
+
+        // --- YENİ KONUM HESAPLAMA MANTIĞI ---
+        function findNextAvailableIconPosition() {
+            const iconWidth = 80;
+            const iconHeight = 80;
+            const padding = 20; 
+            const taskbarHeight = 40;
+            
+            // Kullanılan pozisyonları topla
+            const usedPositions = [];
+
+            // Tüm masaüstü ikonlarını al (sabit ve o ana kadar yüklenmiş dinamik)
+            const allIcons = document.querySelectorAll('#desktop .desktop-icon');
+            
+            allIcons.forEach(icon => {
+                // Sadece top/left stili ayarlanmış olanları dikkate al
+                if (icon.style.top) {
+                    usedPositions.push({ 
+                        top: parseInt(icon.style.top), 
+                        left: parseInt(icon.style.left) 
+                    });
+                }
+            });
+
+            let nextTop = 20;
+            let nextLeft = 20;
+            let maxIterations = 500; 
+            let iterationCount = 0;
+            
+            // İkonları sütun düzeninde tarar
+            while (iterationCount < maxIterations) {
+                iterationCount++;
+
+                let isOccupied = false;
+                
+                // Bu konumun kullanılıp kullanılmadığını kontrol et
+                for (const pos of usedPositions) {
+                    // Yatayda ve dikeyde yeterince yakınsa çakışma var say (80px ikon + 20px padding)
+                    if (Math.abs(pos.top - nextTop) < iconHeight + padding && Math.abs(pos.left - nextLeft) < iconWidth + padding) {
+                        isOccupied = true;
+                        break;
+                    }
+                }
+
+                if (!isOccupied) {
+                    // Boş yer bulundu
+                    return { top: nextTop + 'px', left: nextLeft + 'px' };
+                }
+                
+                // Bir sonraki konuma geç (bir sütunda aşağı)
+                nextTop += iconHeight + padding; 
+                
+                // Eğer ekran yüksekliğini aştıysa 
+                if (nextTop > window.innerHeight - iconHeight - taskbarHeight - padding) {
+                    nextTop = 20; // Başa dön
+                    nextLeft += iconWidth + padding; // Yeni sütuna geç
+                    
+                    // Ekran genişliğini aştıysa 
+                    if (nextLeft > window.innerWidth - iconWidth - padding) {
+                        // Çok fazla simge var, en baştan tekrar dene 
+                        nextTop = 20; 
+                        nextLeft = 20;
+                        usedPositions.length = 0; // Tekrar dene
+                    }
+                }
+            }
+            // Güvenlik amaçlı bir değer dön
+            return { top: '20px', left: '20px' };
+        }
+
+
+        // --- 7. İKON KONUMUNU KALICI KAYDETME MANTIĞI ---
+
+        function saveIconPosition(iconElement) {
+            const iconId = iconElement.id;
+            const top = iconElement.style.top;
+            const left = iconElement.style.left;
+            
+            // Sabit ikonlar
+            if (iconId === 'file-manager-icon' || iconId === 'settings-icon-desktop' || iconId === 'browser-icon') {
+                localStorage.setItem(iconId + '_top', top);
+                localStorage.setItem(iconId + '_left', left);
+            // Dinamik ikonlar
+            } else if (iconId.startsWith('new-folder-icon-') || iconId.startsWith('new-file-icon-')) {
+                let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+                if (items[iconId]) {
+                    items[iconId].top = top;
+                    items[iconId].left = left;
+                    localStorage.setItem('dynamicDesktopItems', JSON.stringify(items));
+                }
+            }
+        }
+
+        function loadIconPositions() {
+            const fixedIcons = document.querySelectorAll('#file-manager-icon, #settings-icon-desktop, #browser-icon');
+
+            fixedIcons.forEach(iconElement => {
+                const iconId = iconElement.id;
+                const savedTop = localStorage.getItem(iconId + '_top');
+                const savedLeft = localStorage.getItem(iconId + '_left');
+
+                // Konumları Yükle veya Varsayılan Konumlarını Kullan
+                if (savedTop && savedLeft) {
+                    iconElement.style.top = savedTop;
+                    iconElement.style.left = savedLeft;
+                }
+                makeIconDraggable(iconElement); // Sürükleme özelliğini tekrar yükle
+            });
+            
+            loadDynamicItems();
+        }
+
+        // --- 8. DİNAMİK KLASÖR/DOSYA OLUŞTURMA VE KAYIT MANTIĞI ---
+
+        function saveDynamicItem(itemName, iconId, top, left, type, content = '') { 
+            let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+            
+            items[iconId] = { 
+                name: itemName, 
+                top: top, 
+                left: left,
+                type: type, 
+                content: content 
+            };
+            
+            localStorage.setItem('dynamicDesktopItems', JSON.stringify(items));
+        }
+
+        function loadDynamicItems() {
+            const items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+            
+            // Sadece dinamik olarak eklenen simgeleri bul ve kaldır (id'leri 'new-' ile başlıyor)
+            document.querySelectorAll('.desktop-icon').forEach(icon => {
+                if (icon.id.startsWith('new-')) {
+                    icon.remove();
+                }
+            });
+            
+            for (const iconId in items) {
+                const itemData = items[iconId];
+                const itemName = itemData.name;
+                const itemType = itemData.type; 
+                
+                // Resim dosyasından kalan verileri atla
+                if (itemType === 'image') continue; 
+
+                // 1. Dosya sistemine ekle (eğer yoksa)
+                const rootPath = '/';
+                if (!fileSystem[rootPath]) { fileSystem[rootPath] = {}; }
+
+                if (!fileSystem[rootPath][itemName]) {
+                    fileSystem[rootPath][itemName] = itemType; 
+                    
+                    if (itemType === 'dir') {
+                        // Klasör içeriğini koru
+                        fileSystem[rootPath + itemName] = fileSystem[rootPath + itemName] || {};
+                    } 
+                }
+
+                // 2. Masaüstü ikonunu oluştur (type bilgisini gönder)
+                const newIconElement = createDesktopIcon(itemName, iconId, itemType); 
+                
+                // 3. Konumunu yükle - Çakışan eski konumları sıfırlamak için yeni konum bul
+                const { top: initialTop, left: initialLeft } = findNextAvailableIconPosition();
+
+                // Konumunu ata
+                newIconElement.style.top = itemData.top || initialTop;
+                newIconElement.style.left = itemData.left || initialLeft;
+
+                // Konumu kaydet (Böylece bir sonraki yüklemede yeni, çakışmayan konumu kullanılır)
+                saveDynamicItem(itemName, iconId, newIconElement.style.top, newIconElement.style.left, itemType, itemData.content); 
+            }
+        }
+
+        // --- 9. KLASÖR SİLME MANTIĞI (Dosyalar için de çalışır) ---
+
+        function deleteDynamicFolder(iconElement) {
+            const iconId = iconElement.id;
+            const itemName = iconElement.querySelector('.icon-label').textContent;
+
+            const isFolder = iconId.startsWith('new-folder-icon-');
+            const itemType = isFolder ? 'klasör' : 'metin belgesi';
+
+            if (!confirm(`'${itemName}' adlı ${itemType}ü kalıcı olarak silmek istediğinizden emin misiniz?`)) {
+                return;
+            }
+            
+            // 1. Dosya Sisteminden Sil
+            const rootPath = '/';
+            if (fileSystem[rootPath] && fileSystem[rootPath][itemName]) {
+                delete fileSystem[rootPath][itemName]; 
+                
+                if (isFolder) {
+                    delete fileSystem[rootPath + itemName]; 
+                }
+            }
+
+            // 2. localStorage'dan Sil
+            let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+            if (items[iconId]) {
+                delete items[iconId];
+                localStorage.setItem('dynamicDesktopItems', JSON.stringify(items));
+            }
+
+            iconElement.remove();
+            
+            if (fileManagerWindow.style.display === 'block' && currentPath.startsWith('/')) {
+                if (currentPath === '/' + itemName) {
+                    currentPath = '/';
+                }
+                renderFiles();
+            }
+
+            alert(`'${itemName}' başarıyla silindi.`);
+        }
+
+        // --- 9b. YENİDEN ADLANDIRMA MANTIĞI (Klasörler ve Dosyalar için) ---
+
+        function renameDynamicItem(iconElement) {
+            const iconId = iconElement.id;
+            const oldName = iconElement.querySelector('.icon-label').textContent;
+            const itemType = iconId.startsWith('new-folder-icon-') ? 'dir' : 'file';
+            const isFolder = itemType === 'dir';
+
+            let newName = prompt(`"${oldName}" öğesini yeniden adlandır:`, oldName);
+
+            if (newName) {
+                newName = newName.trim();
+                if (newName === oldName || newName.length === 0) {
+                    return; // Ad değişmedi veya boş
+                }
+                
+                // Uzantı kontrolü (Sadece dosyalarda)
+                if (!isFolder && !newName.includes('.') && oldName.includes('.')) {
+                    const extension = oldName.substring(oldName.lastIndexOf('.'));
+                    newName += extension;
+                }
+
+                const rootPath = '/';
+                const currentItems = fileSystem[rootPath] || {};
+
+                // Çakışma kontrolü
+                if (currentItems[newName]) {
+                    alert(`Hata: "${newName}" adında bir öğe zaten mevcut.`);
+                    return;
+                }
+
+                // 1. Dosya Sistemini Güncelle
+                if (currentItems[oldName]) {
+                    currentItems[newName] = currentItems[oldName];
+                    delete currentItems[oldName];
+                    
+                    if (isFolder) {
+                        // Eğer klasörse, klasör içeriğinin yolunu da güncelle
+                        fileSystem[rootPath + newName] = fileSystem[rootPath + oldName];
+                        delete fileSystem[rootPath + oldName];
+                    }
+                } else {
+                    alert("Hata: Öğeyi dosya sisteminde bulamadı.");
+                    return;
+                }
+
+                // 2. Masaüstü İkonunu Güncelle
+                iconElement.querySelector('.icon-label').textContent = newName;
+
+                // 3. localStorage'ı Güncelle
+                let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+                if (items[iconId]) {
+                    items[iconId].name = newName;
+                    localStorage.setItem('dynamicDesktopItems', JSON.stringify(items));
+                }
+
+                alert(`"${oldName}" başarıyla "${newName}" olarak yeniden adlandırıldı.`);
+                
+                // Dosya Yöneticisi açıksa günceller
+                if (fileManagerWindow.style.display === 'block' && currentPath === '/') {
+                    renderFiles();
+                }
+            }
+        }
+
+
+        // --- 10. METİN EDİTÖRÜ MANTIĞI ---
+        const editorTitle = document.getElementById('text-editor-title');
+        const editorTextarea = document.getElementById('editor-textarea');
+        const editorSaveBtn = document.getElementById('editor-save-btn');
+        const editorClearBtn = document.getElementById('editor-clear-btn');
+        let currentEditingFileId = null; 
+
+        // Dosyayı editörde açar ve içeriği yükler
+        function openTextEditor(fileName) {
+            
+            // İlgili dosyanın ID'sini bul (Dinamik Dosyalar)
+            let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+            for (const id in items) {
+                if (items[id].name === fileName && items[id].type === 'file') {
+                    currentEditingFileId = id;
+                    const content = items[id].content || '';
+                    
+                    editorTitle.textContent = `📄 Metin Editörü - ${fileName}`;
+                    editorTextarea.value = content;
+                    editorTextarea.disabled = false;
+                    editorSaveBtn.style.display = 'inline-block';
+
+                    openWindow(textEditorWindow, textEditorTaskbarIcon);
+                    return;
+                }
+            }
+            
+            // Sabit Sistem Dosyaları
+            if (fileSystem['/'] && fileSystem['/'][fileName] === 'file') {
+                editorTitle.textContent = `📄 Metin Editörü - ${fileName} (Salt Okunur)`;
+                editorTextarea.value = `Bu, KutOS'un sabit bir sistem dosyasıdır. Düzenlenemez: ${fileName}`;
+                editorTextarea.disabled = true;
+                editorSaveBtn.style.display = 'none';
+                openWindow(textEditorWindow, textEditorTaskbarIcon);
+            }
+        }
+        
+        // Editör içeriğini kaydeder
+        editorSaveBtn.addEventListener('click', () => {
+            if (!currentEditingFileId) return; 
+            
+            let items = JSON.parse(localStorage.getItem('dynamicDesktopItems')) || {};
+            
+            if (items[currentEditingFileId]) {
+                items[currentEditingFileId].content = editorTextarea.value;
+                localStorage.setItem('dynamicDesktopItems', JSON.stringify(items));
+                alert(`"${items[currentEditingFileId].name}" dosyası başarıyla kaydedildi!`);
+            }
+        });
+        
+        // Editör içeriğini temizler
+        editorClearBtn.addEventListener('click', () => {
+            editorTextarea.value = '';
+        });
+
+
+        // --- 11. Uygulama Tanımlama ve Başlatıcı ---
+        
+        // PENCERE REFERANSLARI
+        const settingsWindow = document.getElementById('settings-window');
+        const calculatorWindow = document.getElementById('calculator-window');
+        const securityWindow = document.getElementById('security-window'); 
+        const browserWindow = document.getElementById('browser-window');
+
+        // PENCERE KONUMLARINI AYARLAMA 
+        fileManagerWindow.style.top = '100px';
+        fileManagerWindow.style.left = '200px';
+        textEditorWindow.style.top = '250px'; 
+        textEditorWindow.style.left = '400px'; 
+        settingsWindow.style.top = '150px';
+        settingsWindow.style.left = '250px';
+        calculatorWindow.style.top = '400px';
+        calculatorWindow.style.left = '100px';
+        securityWindow.style.top = '350px'; 
+        securityWindow.style.left = '450px'; 
+        browserWindow.style.top = '200px';
+        browserWindow.style.left = '300px';
+        
+        // BAŞLIK REFERANSLARI
+        const fileManagerHeader = fileManagerWindow.querySelector('.window-header');
+        const textEditorHeader = textEditorWindow.querySelector('.window-header');
+        const settingsHeader = settingsWindow.querySelector('.window-header');
+        const calculatorHeader = calculatorWindow.querySelector('.window-header');
+        const securityHeader = securityWindow.querySelector('.window-header'); 
+        const browserHeader = browserWindow.querySelector('.window-header');
+        
+        // GÖREV ÇUBUĞU REFERANSLARI
+        const settingsTaskbarIcon = document.getElementById('settings-taskbar-icon');
+        const calculatorTaskbarIcon = document.getElementById('calculator-taskbar-icon');
+        const securityTaskbarIcon = document.getElementById('security-taskbar-icon'); 
+        const browserTaskbarIcon = document.getElementById('browser-taskbar-icon');
+        
+        // MASAÜSTÜ İKON REFERANSLARI
+        const fileManagerIcon = document.getElementById('file-manager-icon');
+        const settingsIcon = document.getElementById('settings-icon-desktop');
+        const browserIconDesktop = document.getElementById('browser-icon');
+        
+        // SABİT İKONLARIN BAŞLANGIÇ KONUMLARI
+        fileManagerIcon.style.top = '20px';
+        fileManagerIcon.style.left = '20px';
+        settingsIcon.style.top = '100px';
+        settingsIcon.style.left = '20px';
+        browserIconDesktop.style.top = '180px';
+        browserIconDesktop.style.left = '20px';
+        
+        // MENÜ REFERANSLARI
+        const menuFileManager = document.getElementById('menu-file-manager');
+        const menuTextEditor = document.getElementById('menu-text-editor');
+        const menuSettings = document.getElementById('menu-settings');
+        const menuCalculator = document.getElementById('menu-calculator');
+        const menuSecurity = document.getElementById('menu-security'); 
+        const menuBrowser = document.getElementById('menu-browser');
+        const menuPowerOff = document.getElementById('menu-power-off'); 
+
+        
+        // KURULUMLAR: Kontroller, Sürükleme, Fokus
+        setupWindowControls(fileManagerWindow, fileManagerTaskbarIcon); makeDraggable(fileManagerWindow, fileManagerHeader); setupWindowFocus(fileManagerWindow);
+        setupWindowControls(textEditorWindow, textEditorTaskbarIcon); makeDraggable(textEditorWindow, textEditorHeader); setupWindowFocus(textEditorWindow);
+        setupWindowControls(settingsWindow, settingsTaskbarIcon); makeDraggable(settingsWindow, settingsHeader); setupWindowFocus(settingsWindow);
+        setupWindowControls(calculatorWindow, calculatorTaskbarIcon); makeDraggable(calculatorWindow, calculatorHeader); setupWindowFocus(calculatorWindow);
+        setupWindowControls(securityWindow, securityTaskbarIcon); makeDraggable(securityWindow, securityHeader); setupWindowFocus(securityWindow);
+        setupWindowControls(browserWindow, browserTaskbarIcon); makeDraggable(browserWindow, browserHeader); setupWindowFocus(browserWindow);
+
+        // SABİT SİMGE BAĞLANTILARI
+        fileManagerIcon.addEventListener('dblclick', (e) => { 
+            e.stopPropagation(); 
+            openWindow(fileManagerWindow, fileManagerTaskbarIcon); currentPath = '/'; renderFiles(); 
+        });
+        settingsIcon.addEventListener('dblclick', (e) => { 
+            e.stopPropagation(); 
+            openWindow(settingsWindow, settingsTaskbarIcon); 
+        });
+        browserIconDesktop.addEventListener('dblclick', (e) => { 
+            e.stopPropagation(); 
+            openWindow(browserWindow, browserTaskbarIcon); 
+        });
+
+        
+        // --- 12. HESAP MAKİNESİ MANTIĞI ---
+        const display = document.getElementById('calculator-display');
+        const buttons = calculatorWindow.querySelector('.calculator-buttons');
+        let firstValue = null;
+        let operator = null;
+        let waitingForSecondValue = false;
+
+        function updateDisplay(value) { display.value = value; }
+        function handleNumber(value) {
+            if (waitingForSecondValue) {
+                updateDisplay(value === '.' ? '0.' : value);
+                waitingForSecondValue = false;
+            } else {
+                if (value === '.' && display.value.includes('.')) return;
+                let newValue = display.value === '0' && value !== '.' ? value : display.value + value;
+                updateDisplay(newValue);
+            }
+        }
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(display.value);
+            if (firstValue === null) {
+                firstValue = inputValue;
+            } else if (operator) {
+                const result = performCalculation[operator](firstValue, inputValue);
+                updateDisplay(String(result));
+                firstValue = result;
+            }
+            waitingForSecondValue = true;
+            operator = nextOperator;
+        }
+        function handleSpecialAction(action) {
+            let value = parseFloat(display.value);
+            if (action === 'clear') {
+                firstValue = null; operator = null; waitingForSecondValue = false; updateDisplay('0');
+            } else if (action === 'sign') {
+                updateDisplay(String(value * -1));
+            } else if (action === 'percent') {
+                updateDisplay(String(value / 100));
+            }
+        }
+        const performCalculation = {
+            'add': (first, second) => first + second,
+            'subtract': (first, second) => first - second,
+            'multiply': (first, second) => first * second,
+            'divide': (first, second) => first / second,
+            'calculate': (first, second) => second 
+        };
+        buttons.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!target.classList.contains('btn')) return;
+            if (target.classList.contains('number')) { handleNumber(target.dataset.value); return; }
+            if (target.classList.contains('operator')) { handleOperator(target.dataset.action); return; }
+            if (target.dataset.action === 'calculate') {
+                if (operator) { handleOperator(target.dataset.action); operator = null; waitingForSecondValue = false; firstValue = null; return; }
+            }
+            handleSpecialAction(target.dataset.action);
+        });
+
+        // --- 13. DOSYA YÖNETİCİSİ MANTIĞI ---
+        const currentPathDisplay = document.getElementById('current-path');
+        const fileListContainer = document.getElementById('file-list');
+        let currentPath = '/';
+
+        const fileSystem = {
+            '/': {
+                'Masaüstü': 'dir', 'Belgeler': 'dir', 'Sistem': 'dir',
+                'KutOS_Lisans.txt': 'file', 
+            },
+            '/Masaüstü': { 'Kısayol_1.lnk': 'file', 'Yeni Klasör': 'dir' },
+            '/Belgeler': { 'Rapor.pdf': 'file', 'Yemek_Tarifleri.doc': 'file' },
+            '/Sistem': { 'Kernel.sys': 'file', 'Logs': 'dir' },
+            '/Sistem/Logs': { 'hata_kaydi.log': 'file' }
+        };
+
+        function renderFiles() {
+            if (!fileSystem[currentPath]) { fileListContainer.innerHTML = 'Hata: Klasör bulunamadı.'; return; }
+            fileListContainer.innerHTML = '';
+            currentPathDisplay.textContent = currentPath;
+            const currentDir = fileSystem[currentPath];
+            const items = Object.keys(currentDir).sort();
+
+            if (currentPath !== '/') fileListContainer.appendChild(createFileItem('..', 'up'));
+
+            items.forEach(itemName => {
+                const type = currentDir[itemName];
+                fileListContainer.appendChild(createFileItem(itemName, type));
+            });
+        }
+        function createFileItem(name, type) {
+            const item = document.createElement('div');
+            item.classList.add('file-item'); item.dataset.name = name; item.dataset.type = type;
+            let icon = '';
+            if (type === 'dir' || type === 'up') {
+                icon = (type === 'up') ? '🔙' : '📁'; item.classList.add('folder');
+            } else if (type === 'file') {
+                icon = '📄'; item.classList.add('document');
+            }
+            item.innerHTML = `<span class="file-icon">${icon}</span><span class="file-name">${name}</span>`;
+            item.addEventListener('click', () => { handleFileClick(name, type); });
+            item.addEventListener('dblclick', () => { 
+                if (type === 'file') {
+                    openTextEditor(name); 
+                } 
+            });
+
+            return item;
+        }
+        function handleFileClick(name, type) {
+            if (type === 'dir') {
+                currentPath = (currentPath === '/') ? '/' + name : currentPath + '/' + name; renderFiles();
+            } else if (type === 'up') {
+                if (currentPath.lastIndexOf('/') > 0) currentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+                else currentPath = '/';
+                renderFiles();
+            } else if (type === 'file') {
+                // Tek tıklama dosya seçme simülasyonu
+            }
+        }
+        
+        // Dosya Yöneticisi Başlatma Bağlantıları
+        menuFileManager.addEventListener('click', (e) => { 
+            e.preventDefault(); openWindow(fileManagerWindow, fileManagerTaskbarIcon); renderFiles(); 
+        });
+
+
+        // --- 14. AYARLAR MANTIĞI VE BAŞLATICI ---
+        const desktopElement = document.getElementById('desktop');
+        const defaultBgBtn = document.getElementById('set-bg-default');
+        const solidBgBtn = document.getElementById('set-bg-solid');
+
+        function setBackground(type) {
+            document.querySelectorAll('.settings-btn').forEach(btn => {
+                btn.classList.remove('active-setting');
+            });
+            if (type === 'default') {
+                desktopElement.style.backgroundImage = "url('kutos_wallpaper.png')";
+                desktopElement.style.backgroundColor = "#0f0f1b";
+                desktopElement.style.backgroundSize = "cover";
+                defaultBgBtn.classList.add('active-setting');
+            } else if (type === 'solid') {
+                desktopElement.style.backgroundImage = "none";
+                desktopElement.style.backgroundColor = "black";
+                solidBgBtn.classList.add('active-setting');
+            }
+        }
+        setBackground('default'); 
+
+        defaultBgBtn.addEventListener('click', () => setBackground('default'));
+        solidBgBtn.addEventListener('click', () => setBackground('solid'));
+
+
+        // Diğer Uygulama Başlatma Bağlantıları
+        menuSettings.addEventListener('click', (e) => { e.preventDefault(); openWindow(settingsWindow, settingsTaskbarIcon); });
+        menuBrowser.addEventListener('click', (e) => { e.preventDefault(); openWindow(browserWindow, browserTaskbarIcon); });
+        menuCalculator.addEventListener('click', (e) => { e.preventDefault(); openWindow(calculatorWindow, calculatorTaskbarIcon); });
+        menuSecurity.addEventListener('click', (e) => { e.preventDefault(); openWindow(securityWindow, securityTaskbarIcon); });
+        menuTextEditor.addEventListener('click', (e) => { e.preventDefault(); openTextEditor('Yeni Belge.txt'); }); 
+
+
+        // --- 15. KUTOS GÜVENLİK MANTIĞI ---
+        const startScanBtn = document.getElementById('start-scan-btn');
+        const scanResultDiv = document.getElementById('scan-result');
+        const securityStatusDiv = document.getElementById('security-status');
+
+        startScanBtn.addEventListener('click', () => {
+            securityStatusDiv.innerHTML = '🟡 Tarama Başlatılıyor... Lütfen Bekleyin.';
+            securityStatusDiv.style.borderColor = '#FFC107';
+            securityStatusDiv.style.backgroundColor = '#fff8e1';
+            securityStatusDiv.style.color = '#FFC107';
+            scanResultDiv.textContent = '';
+            startScanBtn.disabled = true;
+
+            setTimeout(() => {
+                const hasVirus = Math.random() < 0.1; 
+
+                if (hasVirus) {
+                    securityStatusDiv.innerHTML = '🔴 TEHLİKE! Virüs Bulundu!';
+                    securityStatusDiv.style.borderColor = '#F44336';
+                    securityStatusDiv.style.backgroundColor = '#ffebee';
+                    securityStatusDiv.style.color = '#F44336';
+                    scanResultDiv.textContent = 'Tespit Edilen Tehdit: Trojan.SnakeGame.exe (Silindi)';
+                } else {
+                    securityStatusDiv.innerHTML = '✅ Sistem Güvenli: Her şey yolunda.';
+                    securityStatusDiv.style.borderColor = '#4CAF50';
+                    securityStatusDiv.style.backgroundColor = '#e8f5e9';
+                    securityStatusDiv.style.color = '#4CAF50';
+                    scanResultDiv.textContent = 'Tarama Tamamlandı. Hiçbir tehdit bulunamadı.';
+                }
+                startScanBtn.disabled = false;
+            }, 3000); 
+        });
+
+
+        // --- 16. Kapat Butonu İşlevi (Geliştirilmiş Simülasyon) ---
+        menuPowerOff.addEventListener('click', (e) => {
+            e.preventDefault();
+            startMenu.style.display = 'none';
+
+            document.body.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; font-family: sans-serif; font-size: 24px; transition: background 2s ease-out;">
+                    <p>KutOS Kapatılıyor...</p>
+                    <p style="font-size: 16px; margin-top: 50px;">Görüşmek üzere Kutay!</p>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                 // window.close();
+            }, 3000); 
+        });
+
+
+        // --- 17. BAĞLAM MENÜSÜ (SAĞ TIK) MANTIĞI ---
+        const createFolderBtn = document.getElementById('menu-create-folder');
+        const createFileBtn = document.getElementById('menu-create-file'); 
+        const refreshBtn = document.getElementById('menu-refresh');
+        const viewSettingsBtn = document.getElementById('menu-view-settings');
+        
+        desktopArea.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); 
+            contextMenu.style.display = 'block';
+            folderContextMenu.style.display = 'none';
+
+            if (e.target.closest('.desktop-icon') || e.target.closest('.window')) {
+                contextMenu.style.display = 'none';
+                return;
+            }
+            
+            const menuWidth = contextMenu.offsetWidth;
+            const menuHeight = contextMenu.offsetHeight;
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            if (x + menuWidth > window.innerWidth) { contextMenu.style.left = `${x - menuWidth}px`; } 
+            else { contextMenu.style.left = `${x}px`; }
+            
+            if (y + menuHeight > window.innerHeight - 40) { contextMenu.style.top = `${y - menuHeight}px`; } 
+            else { contextMenu.style.top = `${y}px`; }
+        });
+        
+        // Yeni Klasör Oluşturma
+        createFolderBtn.addEventListener('click', () => {
+            let folderName = prompt("Oluşturulacak klasörün adını girin (Örn: Yeni Klasörüm):");
+            
+            if (folderName) {
+                folderName = folderName.trim(); 
+                
+                if (folderName.length > 0) {
+                    const rootPath = '/';
+                    
+                    if (!fileSystem[rootPath]) { fileSystem[rootPath] = {}; }
+
+                    if (!fileSystem[rootPath][folderName]) {
+                        
+                        const newIconId = 'new-folder-icon-' + Date.now();
+                        // Otomatik konum bulma
+                        const { top: initialTop, left: initialLeft } = findNextAvailableIconPosition();
+                        
+                        fileSystem[rootPath][folderName] = 'dir';
+                        fileSystem[rootPath + folderName] = {}; 
+                        
+                        createDesktopIcon(folderName, newIconId, 'dir'); 
+                        
+                        // Konumunu ata
+                        const newIconElement = document.getElementById(newIconId);
+                        if (newIconElement) {
+                            newIconElement.style.top = initialTop;
+                            newIconElement.style.left = initialLeft;
+                        }
+                        
+                        saveDynamicItem(folderName, newIconId, initialTop, initialLeft, 'dir'); 
+                        
+                        alert(`'${folderName}' klasörü başarıyla oluşturuldu!`);
+                        
+                        if (fileManagerWindow.style.display === 'block' && currentPath === '/') {
+                            renderFiles();
+                        }
+                    } else {
+                        alert(`Hata: '${folderName}' adında bir klasör/dosya zaten mevcut.`);
+                    }
+                } else {
+                    alert("Klasör adı boş bırakılamaz.");
+                }
+            }
+            contextMenu.style.display = 'none'; 
+        });
+        
+        // Yeni Metin Belgesi Oluşturma
+        createFileBtn.addEventListener('click', () => {
+            let fileName = prompt("Oluşturulacak dosyanın adını girin (Örn: notlar.txt):");
+            
+            if (fileName) {
+                fileName = fileName.trim(); 
+                
+                if (fileName.length > 0) {
+                    if (!fileName.toLowerCase().includes('.')) {
+                        fileName += '.txt';
+                    }
+
+                    const rootPath = '/';
+                    
+                    if (!fileSystem[rootPath]) { fileSystem[rootPath] = {}; }
+
+                    if (!fileSystem[rootPath][fileName]) {
+                        
+                        const newIconId = 'new-file-icon-' + Date.now();
+                        // Otomatik konum bulma
+                        const { top: initialTop, left: initialLeft } = findNextAvailableIconPosition();
+                        
+                        fileSystem[rootPath][fileName] = 'file';
+                        
+                        createDesktopIcon(fileName, newIconId, 'file');
+                        
+                        // Konumunu ata
+                        const newIconElement = document.getElementById(newIconId);
+                        if (newIconElement) {
+                            newIconElement.style.top = initialTop;
+                            newIconElement.style.left = initialLeft;
+                        }
+
+                        saveDynamicItem(fileName, newIconId, initialTop, initialLeft, 'file');
+                        
+                        alert(`'${fileName}' metin belgesi başarıyla oluşturuldu!`);
+                        
+                        if (fileManagerWindow.style.display === 'block' && currentPath === '/') {
+                            renderFiles();
+                        }
+
+                    } else {
+                        alert(`Hata: '${fileName}' adında bir dosya/klasör zaten mevcut.`);
+                    }
+                } else {
+                    alert("Dosya adı boş bırakılamaz.");
+                }
+            }
+            contextMenu.style.display = 'none'; 
+        });
+
+
+        // Yenileme
+        refreshBtn.addEventListener('click', () => {
+            alert("Masaüstü yenileniyor...");
+            window.location.reload(); 
+        });
+        
+        // Görüntü Ayarlarını Açma
+        viewSettingsBtn.addEventListener('click', () => {
+            openWindow(settingsWindow, settingsTaskbarIcon); 
+        });
+
+        // KLASÖR BAĞLAM MENÜSÜ İŞLEVLERİ
+        const menuDeleteFolder = document.getElementById('menu-delete-folder');
+        const menuOpenFolder = document.getElementById('menu-open-folder');
+        const menuRenameItem = document.getElementById('menu-rename-item');
+
+        menuDeleteFolder.addEventListener('click', () => {
+            if (activeFolderIcon) {
+                deleteDynamicFolder(activeFolderIcon);
+            }
+            folderContextMenu.style.display = 'none';
+            activeFolderIcon = null;
+        });
+
+        menuOpenFolder.addEventListener('click', () => {
+             if (activeFolderIcon) {
+                openWindow(fileManagerWindow, fileManagerTaskbarIcon); 
+                
+                const folderName = activeFolderIcon.querySelector('.icon-label').textContent;
+                
+                currentPath = '/' + folderName;
+                renderFiles(); 
+            }
+            folderContextMenu.style.display = 'none';
+            activeFolderIcon = null;
+        });
+        
+        menuRenameItem.addEventListener('click', () => {
+            if (activeFolderIcon) {
+                renameDynamicItem(activeFolderIcon);
+            }
+            folderContextMenu.style.display = 'none';
+            activeFolderIcon = null;
+        });
+
+
+        // --- SON KURULUM ---
+        document.querySelectorAll('.window').forEach(win => {
+            const header = win.querySelector('.window-header');
+            if (header) {
+                makeDraggable(win, header);
+                setupWindowFocus(win);
+            }
+        });
+
+        loadIconPositions(); 
+
+    </script>
+</body>
+</html>

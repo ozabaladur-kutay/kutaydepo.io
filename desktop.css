@@ -1,0 +1,488 @@
+/* Genel Sıfırlama ve Tema */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden; /* Kaydırma çubuklarını gizle */
+    background-color: #0f0f1b;
+    color: #fff;
+}
+
+/* Masaüstü Alanı */
+#desktop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 40px); /* Görev çubuğu yüksekliği kadar boşluk bırak */
+    background-color: #0f0f1b; /* Varsayılan koyu mor arka plan */
+    background-image: url('kutos_wallpaper.png'); /* Varsayılan duvar kağıdı */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Görev Çubuğu (Taskbar) */
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(20, 20, 30, 0.9); /* Yarı şeffaf koyu renk */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 999;
+}
+
+/* Başlat Butonu */
+#start-button {
+    background-color: #5d3f85; /* Mor tonu */
+    color: white;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    height: 30px;
+    line-height: 30px;
+}
+
+#start-button:hover {
+    background-color: #7b59a3;
+}
+
+/* Çalışan Uygulamalar */
+#running-apps {
+    display: flex;
+    height: 100%;
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.taskbar-icon {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.taskbar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.taskbar-icon.active {
+    background-color: #7b59a3; /* Aktif pencere vurgusu */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.taskbar-icon.minimized {
+    opacity: 0.6;
+}
+
+/* Sistem Tepsisi */
+#system-tray {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    height: 30px;
+}
+
+#settings-icon {
+    cursor: pointer;
+}
+
+/* Başlat Menüsü */
+#start-menu {
+    position: fixed;
+    bottom: 40px; /* Görev çubuğunun üstünde */
+    left: 10px;
+    width: 250px;
+    background-color: rgba(20, 20, 30, 0.95);
+    border: 1px solid #7b59a3;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+    padding: 10px 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.menu-header {
+    color: #9c7bbd;
+    font-size: 1.2em;
+    padding: 10px 15px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.menu-item {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #5d3f85;
+}
+
+.menu-item.power-button {
+    margin-top: 10px;
+    border-top: 1px solid #333;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.menu-item.power-button:hover {
+    background-color: #853f3f;
+}
+
+/* Pencere Stilleri */
+.window {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    background-color: #2e2e4e; /* Pencere içi arka plan */
+    border: 1px solid #7b59a3;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    border-radius: 6px;
+    overflow: hidden;
+    display: none;
+    resize: both; /* Pencereyi yeniden boyutlandırma */
+    min-width: 250px;
+    min-height: 100px;
+}
+
+.window.maximized {
+    width: 100vw !important;
+    height: calc(100vh - 40px) !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0;
+    resize: none;
+}
+
+.window-header {
+    height: 30px;
+    background-color: #5d3f85;
+    color: white;
+    padding: 5px 10px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.window-title {
+    font-weight: bold;
+}
+
+.window-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 2px 5px;
+    transition: background-color 0.2s;
+    border-radius: 3px;
+}
+
+.window-controls button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.window-controls .close-btn:hover {
+    background-color: #ff6b6b;
+}
+
+.window-content {
+    padding: 10px;
+    height: calc(100% - 40px);
+    overflow: auto;
+    background-color: #1e1e3e;
+    color: #ccc;
+}
+
+/* Masaüstü İkonları */
+.desktop-icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 10px 5px;
+    user-select: none;
+    z-index: 1; /* Pencerelerin altında kalması için */
+    border-radius: 8px;
+    transition: background-color 0.1s;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.desktop-icon .icon-emoji {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.desktop-icon .icon-label {
+    word-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+}
+
+/* Bağlam Menüsü (Sağ Tık) */
+.context-menu {
+    position: absolute;
+    background-color: #333;
+    border: 1px solid #555;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.menu-item {
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.menu-item:hover {
+    background-color: #5d3f85;
+}
+
+.menu-item.separator {
+    height: 1px;
+    background-color: #555;
+    margin: 5px 0;
+    padding: 0;
+    cursor: default;
+}
+
+/* Dosya Yöneticisi Stilleri */
+.file-manager-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 20px);
+}
+
+.file-manager-content h3 {
+    margin: 0 0 10px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #444;
+}
+
+#file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-content: flex-start;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.file-item {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.1s;
+}
+
+.file-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.file-item .file-icon {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+.file-item.folder .file-icon { color: gold; }
+.file-item.document .file-icon { color: lightgray; }
+.file-item[data-type="up"] .file-icon { color: salmon; }
+
+
+/* Metin Editörü Stilleri */
+.text-editor-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0; 
+}
+
+.editor-menu {
+    padding: 8px 10px;
+    border-bottom: 1px solid #444;
+    background-color: #333;
+}
+
+.editor-menu button {
+    background-color: #5d3f85;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.editor-menu button:hover {
+    background-color: #7b59a3;
+}
+
+#editor-textarea {
+    flex-grow: 1;
+    width: 100%;
+    min-height: 250px;
+    padding: 10px;
+    border: none;
+    box-sizing: border-box;
+    background-color: #1a1a2e; /* Koyu editör arka planı */
+    color: #eee;
+    font-family: monospace;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+/* Ayarlar Stilleri */
+.settings-content h3 {
+    color: #9c7bbd;
+    border-bottom: 2px solid #5d3f85;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+.settings-btn {
+    background-color: #3e3e6e;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+.settings-btn:hover {
+    background-color: #5d3f85;
+}
+
+.settings-btn.active-setting {
+    background-color: #7b59a3;
+    font-weight: bold;
+    box-shadow: 0 0 5px #7b59a3;
+}
+
+/* Hesap Makinesi Stilleri */
+.calculator-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+#calculator-display {
+    width: 100%;
+    height: 60px;
+    text-align: right;
+    font-size: 2.5em;
+    padding: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #5d3f85;
+    background-color: #0f0f1b;
+    color: white;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.calculator-buttons .btn {
+    padding: 15px 0;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #3e3e6e;
+    color: white;
+    transition: background-color 0.1s;
+}
+
+.calculator-buttons .btn:hover {
+    background-color: #5d3f85;
+}
+
+.calculator-buttons .op-color {
+    background-color: #7b59a3;
+}
+
+.calculator-buttons .op-color:hover {
+    background-color: #9c7bbd;
+}
+
+.calculator-buttons .zero {
+    grid-column: span 2;
+}
+
+/* KutOS Güvenlik Stilleri */
+.security-content h3 {
+    color: #9c7bbd;
+    border-bottom: 2px solid #5d3f85;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Kut Browser Stilleri */
+.browser-content {
+    padding: 0;
+    height: calc(100% - 0px);
+    display: flex;
+}
+
+#browser-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: white; /* iframe'in kendi arka planı */
+}
